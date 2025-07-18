@@ -1,42 +1,60 @@
-#root {
-  max-width: 1280px;
-  margin: 0 auto;
-  padding: 2rem;
-  text-align: center;
+@import "tailwindcss";
+
+@font-face {
+  font-family: Outfit;
+  src: url("./assets/font/Outfit-VariableFont_wght.ttf");
+}
+@theme {
+  --breakpoint-sm:  300px;
+  --breakpoint-md:  450px;
+  --breakpoint-lg: 1024px;
+  --inset-shadow-sm: inset 0 -8px 0 0; 
+  
+  --color-blue-dark:      rgba(17, 140, 135, 1);
+  --color-blue:           #31C3BD;
+  --color-blue-light:     #65E9E4;
+  --color-yellow-dark:    rgba(204, 139, 19, 1);
+  --color-yellow:         #f2b137;
+  --color-yellow-light:   #FFC860;
+  --color-silver:         #A8BFC9;
+  --color-silver-light:   #DBE8ED;
+  --color-dark-navy:      #1A2A33;
+  --color-semi-dark-navy: #1F3641;
 }
 
-.logo {
-  height: 6em;
-  padding: 1.5em;
-  will-change: filter;
-  transition: filter 300ms;
+*{
+  box-sizing: border-box;
 }
-.logo:hover {
-  filter: drop-shadow(0 0 2em #646cffaa);
-}
-.logo.react:hover {
-  filter: drop-shadow(0 0 2em #61dafbaa);
+html{
+  font-size: 62.5%;
+  font-family: "Outfit";
 }
 
-@keyframes logo-spin {
-  from {
-    transform: rotate(0deg);
-  }
-  to {
-    transform: rotate(360deg);
-  }
+.text-heading-l{
+  font-weight:    700;
+  font-size:      4rem;
+  letter-spacing: .25rem;
 }
-
-@media (prefers-reduced-motion: no-preference) {
-  a:nth-of-type(2) .logo {
-    animation: logo-spin infinite 20s linear;
-  }
+.text-heading-m{
+  font-weight:    700;
+  font-size:      2.4rem;
+  letter-spacing: .15rem;
 }
-
-.card {
-  padding: 2em;
+.text-heading-s{
+  font-weight:    700;
+  font-size:      2rem;
+  letter-spacing: .125rem;
 }
-
-.read-the-docs {
-  color: #888;
+.text-heading-xs{
+  font-weight:    700;
+  font-size:      1.6rem;
+  letter-spacing: .1rem;
+}
+.text-body{
+  font-weight:    500;
+  font-size:      1.4rem;
+  letter-spacing: .08rem;
+}
+.w-custom{
+  width: clamp(30rem, 87.2vw, 46rem);
 }
