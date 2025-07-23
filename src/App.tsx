@@ -1,20 +1,18 @@
 import { useState, createContext, useContext } from 'react'
 import { BrowserRouter, Routes, Route } from 'react-router-dom';
 import MainMenu from './components/MainMenu';
-import Game from './components/Game'; 
+import Board from './components/Game'; 
 import './App.css'
 
-const GameModeContext = createContext<string | null>(null);
-
 export default function App() {
-  const [mainUserMarker, setMainUserMarker] = useState<string>('X');
+  const [mainUserMarker, setMainUserMarker] = useState<string>('O');
   const [gameMode, setGameMode] = useState<string>('');
   return (
-    <main className='w-screen min-h-screen bg-dark-navy flex flex-column justify-center items-center'>
+    <main className='w-screen min-h-screen bg-dark-navy flex flex-row justify-center'>
       <BrowserRouter>
         <Routes>
           <Route 
-            path="*" 
+            path="/" 
             element={
               <MainMenu 
                 selectMarker={(marker:string) => setMainUserMarker(marker)} 
@@ -25,11 +23,10 @@ export default function App() {
           <Route 
             path="game" 
             element={
-              <GameModeContext value={gameMode}>
-                <Game 
-                  mainUserMarker={mainUserMarker}
-                />
-              </GameModeContext>
+              <Board 
+                mainUserMarker={mainUserMarker}
+                gameMode={gameMode}
+              />
             } 
           />
         </Routes>
