@@ -1,4 +1,4 @@
-import { lazy, useEffect, useState } from "react";
+import { useEffect, useState } from "react";
 import Button from "./Button"
 import { createPortal } from "react-dom";
 import  ModalWindow from './ModalWindow'
@@ -6,7 +6,6 @@ import { useNavigate } from 'react-router-dom';
 import type {gameDataType, gameResultType} from './types'
 import {clearCache, getCachedGameData, cacheGameData, cacheStepNumber, cacheHistorySteps} from './cache' 
 import playWithCPU from "./minMax";
-import {gameIsOver} from './minMax'
 
 
 export default function Board({mainUserMarker, gameMode}: {mainUserMarker:string, gameMode:string}){
@@ -71,7 +70,7 @@ export default function Board({mainUserMarker, gameMode}: {mainUserMarker:string
         }
     }
 
-    
+
     if(gameMode === 'solo' && (!isXTurn && mainUserMarker === 'X' || isXTurn && mainUserMarker === 'O')){
         playWithCPU(mainUserMarker, historySteps, handleMove);
     }
