@@ -12,7 +12,7 @@ export default function Button({children, name, handleClick}: {children:string |
             btnColor =` bg-blue inset-shadow-blue-dark hover:bg-blue-light active:brightness-50 `;
             break;
         case 'restart':
-            btnSize = ` sm:w-[40px] sm:h-[40px] md:w-[52px] md:h-[52px] rounded-[5px] `                       
+            btnSize = ` sm:w-[40px] sm:h-[40px] md:w-[52px] md:h-[52px] rounded-[5px] justify-self-end`                       
             shadowSize = ' inset-shadow-sm ';
             btnColor =` bg-silver inset-shadow-silver-dark hover:bg-silver-light active:brightness-50 `;
             break; 

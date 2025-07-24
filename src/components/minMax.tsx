@@ -56,6 +56,3 @@ function availableMove(board: Array<string|null>): number[]{
      }
      return moves;
 }
-//  function selectSpace(newBoard:Array<string|null>, move:number, markerCPU:string){
-
-//  }

@@ -1,4 +1,4 @@
-import { useEffect, useState } from "react";
+import { useContext, useEffect, useState } from "react";
 import Button from "./Button"
 import { createPortal } from "react-dom";
 import  ModalWindow from './ModalWindow'
@@ -6,6 +6,7 @@ import { useNavigate } from 'react-router-dom';
 import type {gameDataType, gameResultType} from './types'
 import {clearCache, getCachedGameData, cacheGameData, cacheStepNumber, cacheHistorySteps} from './cache' 
 import playWithCPU from "./minMax";
+import { LanguageContext } from "../App";
 
 
 export default function Board({mainUserMarker, gameMode}: {mainUserMarker:string, gameMode:string}){
@@ -21,8 +22,6 @@ export default function Board({mainUserMarker, gameMode}: {mainUserMarker:string
     const [isVisibleReturnModal,  setIsVisibleReturnModal]  = useState<boolean>(false);
     const [isVisibleRestartModal, setIsVisibleRestartModal] = useState<boolean>(false);
     const isXTurn = stepNumber % 2 == 0;
-
-
 
     const handleReturn = () => {
         clearCache();
@@ -129,15 +128,15 @@ export default function Board({mainUserMarker, gameMode}: {mainUserMarker:string
 }
 
 function Header({isXTurn, onClickReturn, onClickRestart}: {isXTurn:boolean, onClickReturn: ()=>void, onClickRestart:()=>void}){
+    const language = useContext(LanguageContext);
     const iconTurnStyle = 'sm:w-[16px] sm:h-[16px] md:w-[20px] md:h-[20px]'
     return(
-        <header className="w-full sm:h-[40px] md:h-[52px] flex lex-row justify-between items-center">
-            <button className="cursor-pointer" onClick={onClickReturn}><img src="logo.svg" alt="logo" /></button>
+        <header className="w-full sm:h-[40px] md:h-[52px] grid grid-cols-3 grid-rows-1 gap-[20px] justify-between items-center">
+            <button className="cursor-pointer justify-self-start" onClick={onClickReturn}><img src="logo.svg" alt="logo" /></button>
             <div className="flex flex-row justify-center items-center sm:gap-x-[9px] md:gap-x-[13px] bg-semi-dark-navy inset-shadow-sm inset-shadow-navy-shadow rounded-[5px] px-[15px] py-[8px] h-full text-heading-xs text-silver">
-                {
-                    isXTurn ? <img className={iconTurnStyle} src="icon-x-light.svg" /> : <img className={iconTurnStyle} src="icon-o-light.svg" alt="" />
-                }
-                TURN
+                {language === 'ru' && 'ХОДИТ'}
+                { isXTurn ? <img className={iconTurnStyle} src="icon-x-light.svg" /> : <img className={iconTurnStyle} src="icon-o-light.svg" alt="" /> }
+                {language === 'en' && 'TURN'}
             </div>
             <Button name="restart" handleClick={onClickRestart}>
                 <img className="w-[16px] h-[16px]" src="icon-restart.svg" alt="restart button"/>
@@ -147,14 +146,31 @@ function Header({isXTurn, onClickReturn, onClickRestart}: {isXTurn:boolean, onCl
 }
 
 function Score({gameData}: {gameData:gameDataType}){
+    const language = useContext(LanguageContext);
+    const text = {
+        en: {
+            1: 'YOU',
+            2: 'CPU',
+            3: 'TIES',
+            4: 'P1',
+            5: 'P2',
+        },
+        ru: {
+            1: 'ВЫ',
+            2: 'ИИ',
+            3: 'НИЧЬЯ',
+            4: 'И1',
+            5: 'И2',
+        }
+    }
     let xOwner:string, oOwner:string;
     if(gameData.mainUserMarker === 'X'){
-        xOwner = (gameData.gameMode === 'solo') ? 'YOU' : 'P1';
-        oOwner = (gameData.gameMode === 'solo') ? 'CPU' : 'P2';
+        xOwner = (gameData.gameMode === 'solo') ? text[language as keyof typeof text][1] : text[language as keyof typeof text][4];
+        oOwner = (gameData.gameMode === 'solo') ? text[language as keyof typeof text][2] : text[language as keyof typeof text][5];
     }
     else{
-        oOwner = (gameData.gameMode === 'solo') ? 'YOU' : 'P1';
-        xOwner = (gameData.gameMode === 'solo') ? 'CPU' : 'P2';
+        oOwner = (gameData.gameMode === 'solo') ? text[language as keyof typeof text][1] : text[language as keyof typeof text][4];
+        xOwner = (gameData.gameMode === 'solo') ? text[language as keyof typeof text][2] : text[language as keyof typeof text][5];
     }
     const scoreStyle:string = ' w-full rounded-[10px] text-body text-dark-navy text-center py-[12px] ';
     return(
@@ -164,7 +180,7 @@ function Score({gameData}: {gameData:gameDataType}){
                 <p className="text-heading-s">{gameData.xMarkerWin}</p>
             </div>
             <div className={"bg-silver" + scoreStyle}>
-                TIES
+                {text[language as keyof typeof text][3]}
                 <p className="text-heading-s">{gameData.tied}</p>
             </div>
             <div className={"bg-yellow" + scoreStyle}>
@@ -178,7 +194,7 @@ function Score({gameData}: {gameData:gameDataType}){
 function PlayingField(props: {isXTurn:boolean, getCachedMarker: (cellInd:number)=>string|null, handleMove: (cellInd:number)=>void}){
     const indexes = [0,1,2,3,4,5,6,7,8];
     return(
-        <section className="grid grid-cols-3 grid-rows-3 gap-[20px]">
+        <section className="w-full grid grid-cols-3 grid-rows-3 gap-[20px] justify-items-center items-center">
             {
                 indexes.map((elInd:number, keyInd: number) => {
                     return (
@@ -211,10 +227,10 @@ function Cell({isXTurn, marker, handleMove}: {isXTurn:boolean, marker: string | 
         <button 
             className = {
                 (!currStepMarker && hoverImg + ' cursor-pointer ') + 
-                " hover:bg-center hover:bg-no-repeat sm:w-[96px] sm:h-[96px] md:w-[140px] md:h-[140px] flex flex-col justify-center items-center bg-semi-dark-navy inset-shadow-md inset-shadow-navy-shadow rounded-[10px]"}
+                " hover:bg-center hover:bg-no-repeat cellSize relative flex flex-col justify-center items-center bg-semi-dark-navy inset-shadow-md inset-shadow-navy-shadow rounded-[10px]"}
             onClick={handleClick}
         >
-            { currStepMarker && <img className="sm:w-[40px] sm:h-[40px] md:h-[64px] md:w-[64px]" src={getImgMarker(currStepMarker)} alt="your turn marker" /> }
+            { currStepMarker && <img className="pos sm:w-[40px] sm:h-[40px] md:h-[64px] md:w-[64px]" src={getImgMarker(currStepMarker)} alt="your turn marker" /> }
         </button>
     )
 }
