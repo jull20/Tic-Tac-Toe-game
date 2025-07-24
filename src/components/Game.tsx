@@ -213,7 +213,7 @@ function PlayingField(props: {isXTurn:boolean, getCachedMarker: (cellInd:number)
 function Cell({isXTurn, marker, handleMove}: {isXTurn:boolean, marker: string | null, handleMove: () => void}){
     const [currStepMarker, setCurrStepMarker] = useState<string | null>(marker);
     useEffect(() => setCurrStepMarker(marker), [marker])
-    const hoverImg = (isXTurn) ? ' hover:bg-[url(icon-x-outline.svg)] ' : ' hover:bg-[url(icon-o-outline.svg)] '
+    const hoverImg = (isXTurn) ? ' hover:bg-[url(../../icon-x-outline.svg)] ' : ' hover:bg-[url(../../icon-o-outline.svg)] '
     const getImgMarker = (marker: string): string => {
         return marker === 'X' ? 'icon-x.svg' : 'icon-o.svg';
     }
