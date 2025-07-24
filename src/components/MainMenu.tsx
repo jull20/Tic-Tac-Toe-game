@@ -68,8 +68,8 @@ function ToggleLenguage({selectLenguage}: {selectLenguage:(l:string)=>void}){
 
 function RadioButton({handleClick}: {handleClick: (marker:string)=>void}){
     const radioBtnStyle = "*:appearance-none *:w-full *:h-full *:rounded-[10px] *:cursor-pointer *:checked:bg-silver *:checked:hover:bg-silver *:hover:bg-semi-dark-navy *:bg-no-repeat *:bg-size-[32px_32px] *:bg-center *:transition *:delay-30 *:duration-300 *:ease-in-out"
-    const zeroImgStyle =  "bg-[url(../../public/icon-o-light.svg)] checked:bg-[url(../../public/icon-o-dark.svg)]"
-    const crossImgStyle = "bg-[url(../../public/icon-x-light.svg)] checked:bg-[url(../../public/icon-x-dark.svg)]"
+    const zeroImgStyle =  "bg-[url(../../icon-o-light.svg)] checked:bg-[url(../../icon-o-dark.svg)]"
+    const crossImgStyle = "bg-[url(../../icon-x-light.svg)] checked:bg-[url(../../icon-x-dark.svg)]"
     return(
         <div className={"w-full h-full flex flex-row gap-x-2 " + radioBtnStyle}>
             <input onClick={()=>handleClick('X')} className={crossImgStyle} type="radio" name="marker" id="cross" />
